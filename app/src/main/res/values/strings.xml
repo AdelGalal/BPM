@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BPM</string>
+    <string name="dialog_title">Alert</string>
+    <string name="dialog_message">Please Wait....</string>
+    <string name="enter_user_name">Enter user name</string>
+    <string name="request_error">Request Error</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="request_no">REQUEST NO.</string>
+</resources>
