@@ -15,14 +15,12 @@ import javax.inject.Inject;
 
 import psystems.co.bpm.BPMApplication;
 import psystems.co.bpm.R;
-import psystems.co.bpm.api.model.response.LoginDataResponse;
 
 import psystems.co.bpm.api.model.response.TaskElement;
+//import psystems.co.bpm.injection.zip.DaggerTaskComponent;
 import psystems.co.bpm.injection.zip.DaggerTaskComponent;
-import psystems.co.bpm.injection.zip.DaggerZipCodeComponent;
 import psystems.co.bpm.injection.zip.TaskComponent;
 import psystems.co.bpm.injection.zip.TasksModule;
-import psystems.co.bpm.injection.zip.ZipCodeModule;
 import psystems.co.bpm.presenters.tasks.TaskPresenter;
 import psystems.co.bpm.ui.adapter.SimpleDividerItemDecoration;
 import psystems.co.bpm.ui.adapter.SpacesItemDecoration;
@@ -74,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements TasksView {
 
     @Override
     public void isSucess(ArrayList<TaskElement> taskElementArrayList) {
-        Log.e("Main Activity","taskElementArrayList="+taskElementArrayList.size());
-        recyclerView.setAdapter(new TasksAdapter(taskElementArrayList,this));
+        recyclerView.setAdapter(new TasksAdapter(taskElementArrayList,this,token,user));
     }
 
     @Override

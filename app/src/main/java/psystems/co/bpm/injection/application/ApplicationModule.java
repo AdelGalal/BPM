@@ -31,8 +31,10 @@ import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import psystems.co.bpm.BPMApplication;
+import psystems.co.bpm.api.JsonClientApi;
 import psystems.co.bpm.api.UsStatesApi;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 @Module
@@ -40,6 +42,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class ApplicationModule {
 
     private BPMApplication application;
+    private static final String base_URL = "http://192.168.1.215:8001/";
 
     public ApplicationModule(BPMApplication application) {
         this.application = application;
@@ -66,7 +69,7 @@ public class ApplicationModule {
 
         Retrofit retrofit =  new Retrofit.Builder()
                 .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
-                .baseUrl("http://192.168.1.215:8001/")
+                .baseUrl(base_URL)
                 .client(okHttpClient)
                 .build();
 
@@ -74,4 +77,29 @@ public class ApplicationModule {
 
     }
 
+    @Provides
+    @Singleton
+
+    public JsonClientApi providesJsonApi(){
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
+//                .connectTimeout(2, TimeUnit.MINUTES)
+//                .writeTimeout(2, TimeUnit.MINUTES)
+//                .readTimeout(2, TimeUnit.MINUTES)
+//                .build();
+
+        Retrofit retrofit =  new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(base_URL)
+
+                .build();
+
+        return retrofit.create( JsonClientApi.class);
+
+    }
 }

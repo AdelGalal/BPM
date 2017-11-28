@@ -1,22 +1,4 @@
-/*
- * Copyright 2016. Alejandro Sánchez
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package psystems.co.bpm.domain.threads;
-
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,13 +7,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import psystems.co.bpm.domain.interactors.Interactor;
 import psystems.co.bpm.domain.interactors.tasks.TaskDetailsInteractor;
-import psystems.co.bpm.domain.interactors.tasks.TaskInteractor;
 
+/**
+ * Created by ADEL on 11/23/2017.
+ */
 
-public class InteractorExecutorImpl implements InteractorExecutor{
-
+public class InteractorExecuterOfTaskDetailsImpl implements InteractorExecutorOfTaskDetails {
     private static final int CORE_POOL_SIZE = 2;
 
     private static final int MAXIMUM_POOL_SIZE = 2;
@@ -43,9 +25,8 @@ public class InteractorExecutorImpl implements InteractorExecutor{
     private static final BlockingQueue QUEUE = new LinkedBlockingQueue();
 
     private ThreadPoolExecutor threadPoolExecutor;
-
     @Inject
-    public InteractorExecutorImpl() {
+    public InteractorExecuterOfTaskDetailsImpl() {
 
         threadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,
@@ -56,10 +37,8 @@ public class InteractorExecutorImpl implements InteractorExecutor{
         );
 
     }
-
     @Override
-    public void run(final Interactor interactor) {
-
+    public void run(final TaskDetailsInteractor interactor) {
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -68,9 +47,5 @@ public class InteractorExecutorImpl implements InteractorExecutor{
 
             }
         });
-
     }
-
-
-
 }

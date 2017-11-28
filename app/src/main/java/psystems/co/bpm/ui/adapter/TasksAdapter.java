@@ -1,10 +1,9 @@
 package psystems.co.bpm.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +11,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 import psystems.co.bpm.R;
 import psystems.co.bpm.api.model.response.TaskElement;
+import psystems.co.bpm.ui.activities.TaskDetailsActivity;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder> {
 
     private ArrayList<TaskElement> taskElementArrayList;
     private Context mContext;
+    MyViewHolder viewHolder;
+    private String token;
+    private String userName;
     int height;
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView titleOfTask, requestNumber,employeeName,assignedDate,numberOfDays;
         private RelativeLayout parent_layout;
@@ -47,14 +43,25 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
             numberOfDays=(TextView)view.findViewById(R.id.number_of_days_textView);
             parent_layout=(RelativeLayout)view.findViewById(R.id.parent_layout);
             priority_layout=(LinearLayout)view.findViewById(R.id.priority_layout);
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, TaskDetailsActivity.class);
+                    intent.putExtra("taskID", taskElementArrayList.get(getLayoutPosition()).getTaskSystemAttributes().getTaskId());
+                    intent.putExtra("token",token);
+                    intent.putExtra("userName",userName);
+                  mContext.startActivity(intent);
+             }
+            });
         }
     }
 
 
-    public TasksAdapter(ArrayList<TaskElement> taskElementArrayList,Context mContext) {
+    public TasksAdapter(ArrayList<TaskElement> taskElementArrayList,Context mContext,String token,String userName) {
         this.taskElementArrayList = taskElementArrayList;
         this.mContext=mContext;
+        this.token=token;
+        this.userName=userName;
     }
 
     @Override
@@ -62,6 +69,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.tasks_layout, parent, false);
          height = parent.getMeasuredHeight() / 5;
+        viewHolder = new MyViewHolder(itemView);
         return new MyViewHolder(itemView);
     }
 

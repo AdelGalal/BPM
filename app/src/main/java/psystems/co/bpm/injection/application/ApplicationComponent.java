@@ -20,6 +20,7 @@ package psystems.co.bpm.injection.application;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import psystems.co.bpm.api.JsonClientApi;
 import psystems.co.bpm.api.UsStatesApi;
 
 
@@ -28,4 +29,5 @@ import psystems.co.bpm.api.UsStatesApi;
 public interface ApplicationComponent {
 
     UsStatesApi providesApi();
+    JsonClientApi providesJsonApi();
 }

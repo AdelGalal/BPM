@@ -19,6 +19,7 @@ import psystems.co.bpm.api.model.request.TaskRequestBody;
 import psystems.co.bpm.api.model.request.TaskValuesList;
 import psystems.co.bpm.api.model.request.TaskWorkFlowContextRequest;
 import psystems.co.bpm.api.model.request.TasksRequestEnvelope;
+import psystems.co.bpm.api.model.response.TaskDetailsURLResponse;
 import psystems.co.bpm.api.model.response.TaskResponseBody;
 import psystems.co.bpm.api.model.response.TaskResponseEnvelope;
 import psystems.co.bpm.domain.threads.InteractorExecutor;
@@ -156,6 +157,7 @@ public class TaskInteractorImpl implements TaskInteractor {
 
             }
         });
+
 
     }
 
