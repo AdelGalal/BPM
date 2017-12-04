@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import psystems.co.bpm.api.model.response.LoginDataResponse;
 import psystems.co.bpm.api.model.response.TaskElement;
+import psystems.co.bpm.api.model.response.TasksEntityResponse;
 import psystems.co.bpm.domain.interactors.Interactor;
 import psystems.co.bpm.domain.interactors.login.LoginInteractor;
 
@@ -15,7 +16,7 @@ public interface TaskInteractor extends Interactor {
 
     interface Callback {
 
-        void onSucess(ArrayList<TaskElement> taskElementsList);
+        void onSucess(ArrayList<TasksEntityResponse> taskElementsList);
 
         void onError();
 
@@ -25,5 +26,7 @@ public interface TaskInteractor extends Interactor {
                  String displayFifthColumn,String displaySixthColumn,
                  String taskFirstOptionalInfo,String taskSecondOptionalInfo,
                  String assignmentFilter,Callback callback);
+
+    void excuteSortingSearch(String token,String orderColumn,String order,Callback callback);
 
 }

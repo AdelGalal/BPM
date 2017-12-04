@@ -2,11 +2,15 @@ package psystems.co.bpm.domain.interactors.tasks;
 
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import psystems.co.bpm.api.Gson;
+import psystems.co.bpm.api.JsonClientApi;
 import psystems.co.bpm.api.UsStatesApi;
 import psystems.co.bpm.api.model.request.TaskClauseRequest;
 import psystems.co.bpm.api.model.request.TaskColumnNameRequest;
@@ -20,6 +24,7 @@ import psystems.co.bpm.api.model.request.TaskValuesList;
 import psystems.co.bpm.api.model.request.TaskWorkFlowContextRequest;
 import psystems.co.bpm.api.model.request.TasksRequestEnvelope;
 import psystems.co.bpm.api.model.response.TaskDetailsURLResponse;
+import psystems.co.bpm.api.model.response.TaskListResponse;
 import psystems.co.bpm.api.model.response.TaskResponseBody;
 import psystems.co.bpm.api.model.response.TaskResponseEnvelope;
 import psystems.co.bpm.domain.threads.InteractorExecutor;
@@ -34,6 +39,8 @@ import retrofit2.Response;
 public class TaskInteractorImpl implements TaskInteractor {
 
     private String token;
+    private String orderColumn;
+    private String order;
     private String displayFirstColumn;
     private String displaySecondColumn;
     private String displayThirdColumn;
@@ -44,10 +51,15 @@ public class TaskInteractorImpl implements TaskInteractor {
     private String taskSecondOptionalInfo;
     private String assignmentFilter;
 
+    private TaskListResponse taskListResponse;
+
     private Callback callback;
 
     @Inject
     UsStatesApi usStatesApi;
+
+    @Inject
+    JsonClientApi jsonClientApi;
 
     @Inject
     MainThread mainThread;
@@ -73,16 +85,16 @@ public class TaskInteractorImpl implements TaskInteractor {
         TaskPredicateQueryRequest taskPredicateQueryRequest=new TaskPredicateQueryRequest();
         TaskDisplayColumnListRequest taskDisplayColumnListRequest =new TaskDisplayColumnListRequest();
 
-            taskDisplayColumnListRequest.setDisplayFirstColumn(displayFirstColumn);
+        taskDisplayColumnListRequest.setDisplayFirstColumn(displayFirstColumn);
 
-            taskDisplayColumnListRequest.setDisplaySecondColumn(displaySecondColumn);
+        taskDisplayColumnListRequest.setDisplaySecondColumn(displaySecondColumn);
 
-            taskDisplayColumnListRequest.setDisplayThirdColumn(displayThirdColumn);
+        taskDisplayColumnListRequest.setDisplayThirdColumn(displayThirdColumn);
 
-           taskDisplayColumnListRequest.setDisplayFourthColumn(displayFourthColumn);
-            taskDisplayColumnListRequest.setDisplayFifthColumn(displayFifthColumn);
+        taskDisplayColumnListRequest.setDisplayFourthColumn(displayFourthColumn);
+        taskDisplayColumnListRequest.setDisplayFifthColumn(displayFifthColumn);
 
-           taskDisplayColumnListRequest.setDisplaySixthColumn(displaySixthColumn);
+        taskDisplayColumnListRequest.setDisplaySixthColumn(displaySixthColumn);
         taskPredicateQueryRequest.setTaskDisplayColumn(taskDisplayColumnListRequest);
 
         TaskOptionalInfoRequest taskOptionalInfoRequest=new TaskOptionalInfoRequest();
@@ -114,25 +126,78 @@ public class TaskInteractorImpl implements TaskInteractor {
         tasksRequestEnvelope.setBody(taskRequestBody);
 
         Call<TaskResponseEnvelope> call = usStatesApi.requestTasks(tasksRequestEnvelope);
-        call.enqueue(new retrofit2.Callback<TaskResponseEnvelope>() {
+//        call.enqueue(new retrofit2.Callback<TaskResponseEnvelope>() {
+//
+//            @Override
+//            public void onResponse(Call<TaskResponseEnvelope> call, final Response<TaskResponseEnvelope> response) {
+//                Log.e("response","response1111=="+response.code());
+//                mainThread.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        if (response.code()==200)
+//                        {
+//                            Log.e("response","response=="+response.code());
+//                          // callback.onSucess(response.body().getBody().getTaskElements());
+//                            Log.e("response","size=="+response.body().getBody().getTaskElements().size());
+//                        }
+//
+//                        else
+//                        {
+//                          //  callback.onError();
+//                        }
+//
+//                    }
+//
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(final Call<TaskResponseEnvelope> call, final Throwable t) {
+//
+//                mainThread.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//
+//                        Log.e("response","erorr of tasks=="+t.getMessage());
+//                        callback.onError();
+//
+//                    }
+//                });
+//
+//            }
+//        });
+
+
+    }
+
+    @Override
+    public void runSorting() {
+
+        Call<JsonElement> call = jsonClientApi.getSortedTasks(orderColumn,order,token);
+        call.enqueue(new retrofit2.Callback<JsonElement>() {
 
             @Override
-            public void onResponse(Call<TaskResponseEnvelope> call, final Response<TaskResponseEnvelope> response) {
-                Log.e("response","response1111=="+response.code());
+            public void onResponse(Call<JsonElement> call, final Response<JsonElement> response) {
+                Log.e("response","response1111 of json=="+response.code());
                 mainThread.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        if (response.code()==200)
+                        if (response.isSuccessful())
                         {
-                            Log.e("response","response=="+response.code());
-                           callback.onSucess(response.body().getBody().getTaskElements());
-                            Log.e("response","size=="+response.body().getBody().getTaskElements().size());
+                            taskListResponse = Gson.parseSortedTasksURL(response.body());
+                            Log.e("response","response=="+response.body());
+                         //   Log.e("response","task sorted array size=="+taskListResponse.getTasksEntityResponseArrayList().size());
+                            callback.onSucess(taskListResponse.getTasksEntityResponseArrayList());
+                            //Log.e("response","size=="+response.body().getBody().getTaskElements().size());
                         }
 
                         else
                         {
-                          //  callback.onError();
+                            callback.onError();
                         }
 
                     }
@@ -142,7 +207,7 @@ public class TaskInteractorImpl implements TaskInteractor {
             }
 
             @Override
-            public void onFailure(final Call<TaskResponseEnvelope> call, final Throwable t) {
+            public void onFailure(final Call<JsonElement> call, final Throwable t) {
 
                 mainThread.runOnUiThread(new Runnable() {
 
@@ -157,8 +222,6 @@ public class TaskInteractorImpl implements TaskInteractor {
 
             }
         });
-
-
     }
 
 
@@ -176,6 +239,15 @@ public class TaskInteractorImpl implements TaskInteractor {
         this.assignmentFilter=assignmentFilter;
         this.callback=callback;
 
-        interactorExecutor.run( this );
+       // interactorExecutor.run( this );
+    }
+
+    @Override
+    public void excuteSortingSearch(String token,String orderColumn,String order,Callback callback) {
+        this.token=token;
+        this.orderColumn=orderColumn;
+        this.order=order;
+        interactorExecutor.runSorting(this);
+        this.callback=callback;
     }
 }

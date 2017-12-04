@@ -25,7 +25,7 @@ import psystems.co.bpm.ui.views.LoginZipsView;
 import psystems.co.bpm.util.ZipCodeMapperUi;
 
 
-public class ZipCodesPresenterImpl implements ZipCodesPresenter, LoginInteractor.Callback {
+public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.Callback {
 
     @Inject
     LoginZipsView view;
@@ -37,7 +37,7 @@ public class ZipCodesPresenterImpl implements ZipCodesPresenter, LoginInteractor
     LoginInteractor searchCodesByCityInteractor;
 
     @Inject
-    public ZipCodesPresenterImpl() {
+    public LoginPresenterImpl() {
 
     }
 

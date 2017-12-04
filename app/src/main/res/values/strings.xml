@@ -1,9 +1,37 @@
 <resources>
     <string name="app_name">BPM</string>
+    <string name="ok_btn">Ok</string>
     <string name="dialog_title">Alert</string>
     <string name="dialog_message">Please Wait....</string>
     <string name="enter_user_name">Enter user name</string>
     <string name="request_error">Request Error</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="request_no">REQUEST NO.</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_priority">Priority</string>
+    <string name="sort_by_state">State</string>
+    <string name="sort_by_Ascending">Ascending</string>
+    <string name="sort_by_Descending">Descending</string>
+    <string name="filter_by_text">Filter By Text</string>
+    <string name="filter_by_group">Filter By Group</string>
+    <string name="filter_By_severity">Filter By Severity</string>
+    <string name="filter_by_duration">Filter By Duration</string>
+    <string name="filter_by_status">Filter By Status</string>
+    <string name="me">Me</string>
+    <string name="me_and_mygroup">Me and My Group</string>
+    <string name="group">Group</string>
+    <string name="me_previous">Me previous</string>
+    <string name="reviewer">Reviewer</string>
+    <string name="any_severity">Any Severity</string>
+    <string name="very_important">Very Important</string>
+    <string name="important">Important</string>
+    <string name="normal">Normal</string>
+    <string name="low">Low</string>
+    <string name="very_low">Very Low</string>
+    <string name="assigned">Assigned</string>
+    <string name="completed">Completed</string>
+    <string name="request_info">Request Info</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>

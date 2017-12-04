@@ -4,14 +4,20 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
     <application
         android:name=".BPMApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
@@ -25,7 +31,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".ui.activities.TaskDetailsActivity"></activity>
+        <activity android:name=".ui.activities.TaskDetailsActivity" />
     </application>
 
 </manifest>

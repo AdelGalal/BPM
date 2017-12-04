@@ -16,4 +16,8 @@ public interface JsonClientApi {
     Call<JsonElement> getTaskURLOfDetails(@Query("taskid") String
                                                   taskId, @Header("token") String token);
 
+    @GET("/MobileProxy/resources/iworkspace/getUserInbox?")
+    Call<JsonElement> getSortedTasks(@Query("orderColumn") String
+                                             taskId,@Query("order")String order,@Header("token") String token);
+
 }

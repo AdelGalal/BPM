@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RadioGroup
+        android:id="@+id/group_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/date_radioBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:checked="true"
+            android:text="@string/sort_by_date"
+            android:textColor="@color/main_bg"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/priority_radioBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/sort_by_priority"
+            android:textColor="@color/main_bg"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/state_radioBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/sort_by_state"
+            android:textColor="@color/main_bg"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RadioGroup>
+    <View
+        android:id="@+id/line"
+        android:layout_below="@+id/group_one"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@android:color/darker_gray" />
+    <RadioGroup
+        android:id="@+id/group_two"
+        android:layout_below="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/ascending_radioBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:checked="true"
+            android:text="@string/sort_by_Ascending"
+            android:textColor="@color/main_bg"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/descnding_radioBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/sort_by_Descending"
+            android:textColor="@color/main_bg"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/ok_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg"
+        android:textColor="@color/white"
+        android:layout_below="@+id/group_two"
+        android:layout_centerInParent="true"
+        android:text="@string/ok_btn" />
+</RelativeLayout>

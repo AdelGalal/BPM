@@ -98,4 +98,11 @@ public class TaskDetailsInteractorImpl implements TaskDetailsInteractor {
         });
         ////////////////////////////////////////////////////////////////
     }
+
+    @Override
+    public void runSorting() {
+
+    }
+
+
 }

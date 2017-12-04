@@ -3,7 +3,6 @@
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,8 +18,7 @@ import psystems.co.bpm.api.model.response.LoginDataResponse;
 import psystems.co.bpm.injection.zip.DaggerZipCodeComponent;
 import psystems.co.bpm.injection.zip.ZipCodeComponent;
 import psystems.co.bpm.injection.zip.ZipCodeModule;
-import psystems.co.bpm.presenters.ZipCodesPresenter;
-import psystems.co.bpm.ui.adapter.ZipCodesAdapter;
+import psystems.co.bpm.presenters.LoginPresenter;
 import psystems.co.bpm.ui.model.UserLoggedData;
 import psystems.co.bpm.ui.views.LoginZipsView;
 import psystems.co.bpm.util.ActivitySwiping;
@@ -28,7 +26,7 @@ import psystems.co.bpm.util.SharedPreference;
 
  public class LoginActivity extends AppCompatActivity implements LoginZipsView,View.OnClickListener {
      @Inject
-     ZipCodesPresenter presenter;
+     LoginPresenter presenter;
 
      private ProgressDialog progressDialog;
 

@@ -29,7 +29,7 @@ import psystems.co.bpm.api.model.request.login.LoginRequestEnvelope;
 import psystems.co.bpm.api.model.response.LoginResponseEnvelope;
 import psystems.co.bpm.domain.threads.InteractorExecutor;
 import psystems.co.bpm.domain.threads.MainThread;
-import psystems.co.bpm.util.ZipCodeMapperDomain;
+//import psystems.co.bpm.util.ZipCodeMapperDomain;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -45,8 +45,8 @@ public class LoginInteractorImpl implements LoginInteractor {
     @Inject
     UsStatesApi usStatesApi;
 
-    @Inject
-    ZipCodeMapperDomain zipCodeMapperDomain;
+//    @Inject
+//    ZipCodeMapperDomain zipCodeMapperDomain;
 
     @Inject
     MainThread mainThread;
@@ -130,6 +130,11 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             }
         });
+
+    }
+
+    @Override
+    public void runSorting() {
 
     }
 

@@ -71,6 +71,18 @@ public class InteractorExecutorImpl implements InteractorExecutor{
 
     }
 
+    @Override
+    public void runSorting(final Interactor interactor) {
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                interactor.runSorting();
+
+            }
+        });
+
+    }
 
 
 }

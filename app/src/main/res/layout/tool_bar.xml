@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg"
+    android:elevation="4dp"
+    >
+    <TextView
+        android:id="@+id/tv_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="TextView" />
+    <ImageView
+        android:id="@+id/sort_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:src="@drawable/ic_sort_black_24dp"
+         />
+    <ImageView
+        android:id="@+id/filter_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:src="@drawable/ic_filter_list_black_24dp"
+        />
+</android.support.v7.widget.Toolbar>

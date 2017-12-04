@@ -28,7 +28,7 @@ import psystems.co.bpm.domain.threads.InteractorExecutor;
 import psystems.co.bpm.domain.threads.MainThread;
 import psystems.co.bpm.injection.ActivityScope;
 import psystems.co.bpm.injection.application.ApplicationComponent;
-import psystems.co.bpm.presenters.ZipCodesPresenter;
+import psystems.co.bpm.presenters.LoginPresenter;
 import psystems.co.bpm.ui.activities.LoginActivity;
 import psystems.co.bpm.ui.model.ZipCodeData;
 import psystems.co.bpm.util.EntityMapper;
@@ -45,7 +45,7 @@ public interface ZipCodeComponent {
 
     RecyclerView.Adapter providesZipCodesAdapter();
 
-    ZipCodesPresenter providesPresenter();
+    LoginPresenter providesPresenter();
 
     EntityMapper<ZipCodeData,ZipCodeDomain> providesUiMapper();
 

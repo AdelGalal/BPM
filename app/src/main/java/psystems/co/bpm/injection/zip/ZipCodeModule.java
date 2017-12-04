@@ -31,8 +31,8 @@ import psystems.co.bpm.domain.threads.InteractorExecutorImpl;
 import psystems.co.bpm.domain.threads.MainThread;
 import psystems.co.bpm.domain.threads.MainThreadImpl;
 import psystems.co.bpm.injection.ActivityScope;
-import psystems.co.bpm.presenters.ZipCodesPresenter;
-import psystems.co.bpm.presenters.ZipCodesPresenterImpl;
+import psystems.co.bpm.presenters.LoginPresenter;
+import psystems.co.bpm.presenters.LoginPresenterImpl;
 import psystems.co.bpm.ui.activities.LoginActivity;
 import psystems.co.bpm.ui.adapter.ZipCodesAdapter;
 import psystems.co.bpm.ui.model.ZipCodeData;
@@ -61,7 +61,7 @@ public class ZipCodeModule {
 
     @Provides
     @ActivityScope
-    public ZipCodesPresenter providesPresenter(ZipCodesPresenterImpl zipCodesPresenter){
+    public LoginPresenter providesPresenter(LoginPresenterImpl zipCodesPresenter){
         return zipCodesPresenter;
     }
 
