@@ -12,7 +12,6 @@
     </include>
 
 
-
     <LinearLayout
         android:id="@+id/user_layout"
         android:layout_width="match_parent"
@@ -30,6 +29,10 @@
         android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <FrameLayout android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:layout_height="300dp" />
 
 </RelativeLayout>

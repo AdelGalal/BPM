@@ -10,6 +10,7 @@ public interface TaskPresenter {
                     String firstOptionalTask,String secondOptionalTask,
                     String assignmentFilter);
 
-    void startSortingSearch(String token,String orderColumn,String order);
+    void startSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate
+    , String filter,String state,String keywords);
 
 }

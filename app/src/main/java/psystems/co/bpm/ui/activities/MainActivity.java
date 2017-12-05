@@ -1,9 +1,13 @@
 package psystems.co.bpm.ui.activities;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +44,7 @@ import psystems.co.bpm.presenters.tasks.TaskPresenter;
 import psystems.co.bpm.ui.adapter.SimpleDividerItemDecoration;
 import psystems.co.bpm.ui.adapter.SpacesItemDecoration;
 import psystems.co.bpm.ui.adapter.TasksAdapter;
+import psystems.co.bpm.ui.fragments.FilterDailogFragment;
 import psystems.co.bpm.ui.views.TasksView;
 import psystems.co.bpm.util.SharedPreference;
 
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
     private String user;
     private String token;
     private ImageView sort_imageView;
+    private ImageView filter_imageView;
     private  RadioGroup firstRadioGroup;
     private RadioGroup secondRadioGroup;
     private  Button okBtn;
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         userName=(TextView)findViewById(R.id.tv_user);
         sort_imageView=(ImageView)findViewById(R.id.sort_imageView);
         sort_imageView.setOnClickListener(this);
+        filter_imageView=(ImageView)findViewById(R.id.filter_imageView);
+        filter_imageView.setOnClickListener(this);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_view) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(2);
@@ -94,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
 //        }
 //        else
 
-            presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(this),SharedPreference.loadOrderIn(this));
-
+          startConnection();
     }
 
     private void initInjection() {
@@ -106,6 +113,13 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
                 .build();
 
         taskComponent.inject(this);
+
+    }
+
+    public void startConnection()
+    {
+        presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(this),SharedPreference.loadOrderIn(this),SharedPreference.loadFilterFromDate(this),SharedPreference.loadFilterToDate(this),
+                SharedPreference.loadFilterByGroup(this),SharedPreference.loadFilterAssigned(this),SharedPreference.loadFilterKeyWord(this));
 
     }
 
@@ -121,12 +135,18 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
       if (SharedPreference.loadFirstRadioButtons(MainActivity.this)!=0)
       {
           RadioButton radioButton = (RadioButton) dialog.findViewById(SharedPreference.loadFirstRadioButtons(MainActivity.this));
-          radioButton.setChecked(true);
+         if (radioButton!=null)
+         {
+             radioButton.setChecked(true);
+         }
+
       }
         if (SharedPreference.loadSecondRadioButtons(MainActivity.this)!=0)
         {
             RadioButton radioButton = (RadioButton) dialog.findViewById(SharedPreference.loadSecondRadioButtons(MainActivity.this));
-            radioButton.setChecked(true);
+            if (radioButton!=null) {
+                radioButton.setChecked(true);
+            }
         }
         okBtn = (Button) dialog.findViewById(R.id.ok_Btn);
 
@@ -163,49 +183,13 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
                 Log.e("orderColumn","orderColumn="+orderColumn);
                 SharedPreference.saveOrderColumn(MainActivity.this,orderColumn);
                 SharedPreference.saveOrderIn(MainActivity.this,orderIn);
-                presenter.startSortingSearch(token,orderColumn,orderIn);
+                presenter.startSortingSearch(token,orderColumn,orderIn,null,null,null,null,null);
             }
 
         });
 
         // now that the dialog is set up, it's time to show it
         dialog.show();
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        MenuItem item = menu.findItem(R.id.spinner);
-//        ArrayList<String> list = new ArrayList<String>();
-//        list.add(getString(R.string.sort_by_date));
-//        list.add(getString(R.string.sort_by_priority));
-//        list.add(getString(R.string.sort_by_state));
-//        list.add(getString(R.string.sort_by_Ascending));
-//        list.add(getString(R.string.sort_by_Descending));
-//
-//        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,list);
-//
-//        adapter.setDropDownViewResource(R.layout.spinner_item);
-//        spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-////                Toast.makeText(MainActivity.this,"test",Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -214,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK ) {
 
             Log.e("onActivityResult","onActivityResult");
-                presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(MainActivity.this),SharedPreference.loadOrderIn(MainActivity.this));
+                presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(MainActivity.this),SharedPreference.loadOrderIn(MainActivity.this),null,null,null,null,null);
 
         }
     }
@@ -264,6 +248,34 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         if (view==sort_imageView)
         {
             showDailog();
+        }
+        if (view==filter_imageView)
+        {
+
+//            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            DialogFragment newFragment = new FilterDailogFragment();
+//            ft.add(R.id.fragment_container, newFragment).commit();
+
+            FragmentManager fm = getFragmentManager();
+            FilterDailogFragment dialogFragment = new FilterDailogFragment ();
+            dialogFragment.show(fm, "Sample Fragment");
+
+
+
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+//            if (prev != null) {
+//                ft.remove(prev);
+//            }
+//            ft.addToBackStack(null);
+//
+//            // Create and show the dialog.
+//            DialogFragment newFragment = FilterDailogFragment.newInstance();
+//            newFragment.show(ft, "dialog");
+
+
+//            ParentFragmentsActivity parentFragmentsActivity=new ParentFragmentsActivity();
+//            parentFragmentsActivity.swipeBetweenFragments(FilterDailogFragment.newInstance());
         }
     }
 }

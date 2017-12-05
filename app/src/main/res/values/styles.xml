@@ -38,6 +38,12 @@
 
     </style>
 
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <!-- title encapsulating main part (backgroud) of custom alertdialog -->
+
+
+    </style>
+
     <style name="MainTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -35,9 +35,10 @@ public class TaskPresenterImpl implements TaskPresenter,TaskInteractor.Callback 
 
 
     @Override
-    public void startSortingSearch(String token,String orderColumn,String order) {
+    public void startSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate
+            , String filter,String state,String keywords) {
         view.showWaitingDialog();
-        taskInteractor.excuteSortingSearch(token,orderColumn,order,this);
+        taskInteractor.excuteSortingSearch(token,orderColumn,order,fromDate,toDate,filter,state,keywords,this);
     }
 
     @Override

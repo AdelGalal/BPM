@@ -149,7 +149,7 @@ public class TaskDetailsActivity extends AppCompatActivity implements TaskDetail
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-           // progressDialog.show();
+            progressDialog.show();
             super.onPageStarted(view, url, favicon);
 
         }

@@ -27,6 +27,7 @@ public interface TaskInteractor extends Interactor {
                  String taskFirstOptionalInfo,String taskSecondOptionalInfo,
                  String assignmentFilter,Callback callback);
 
-    void excuteSortingSearch(String token,String orderColumn,String order,Callback callback);
+    void excuteSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate,
+                             String filter,String state,String keywords,Callback callback);
 
 }

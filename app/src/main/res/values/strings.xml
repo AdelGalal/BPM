@@ -17,6 +17,8 @@
     <string name="filter_By_severity">Filter By Severity</string>
     <string name="filter_by_duration">Filter By Duration</string>
     <string name="filter_by_status">Filter By Status</string>
+    <string name="select_filter_group_By">Select Filter By Group</string>
+    <string name="select_filter_by_severity">Select Filter By Severity</string>
     <string name="me">Me</string>
     <string name="me_and_mygroup">Me and My Group</string>
     <string name="group">Group</string>
@@ -34,4 +36,5 @@
     <string name="apply_filter">Apply Filter</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="filter_title">Filter By</string>
 </resources>

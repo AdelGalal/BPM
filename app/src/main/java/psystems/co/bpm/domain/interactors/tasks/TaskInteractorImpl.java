@@ -41,6 +41,11 @@ public class TaskInteractorImpl implements TaskInteractor {
     private String token;
     private String orderColumn;
     private String order;
+    private String fromDate;
+    private String toDate;
+    private String filter;
+    private String state;
+    private String keywords;
     private String displayFirstColumn;
     private String displaySecondColumn;
     private String displayThirdColumn;
@@ -176,7 +181,7 @@ public class TaskInteractorImpl implements TaskInteractor {
     @Override
     public void runSorting() {
 
-        Call<JsonElement> call = jsonClientApi.getSortedTasks(orderColumn,order,token);
+        Call<JsonElement> call = jsonClientApi.getSortedTasks(orderColumn,order,fromDate,toDate,filter,state,keywords,token);
         call.enqueue(new retrofit2.Callback<JsonElement>() {
 
             @Override
@@ -243,10 +248,16 @@ public class TaskInteractorImpl implements TaskInteractor {
     }
 
     @Override
-    public void excuteSortingSearch(String token,String orderColumn,String order,Callback callback) {
+    public void excuteSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate,
+                                    String filter,String state,String keywords,Callback callback) {
         this.token=token;
         this.orderColumn=orderColumn;
         this.order=order;
+        this.fromDate=fromDate;
+        this.toDate=toDate;
+        this.filter=filter;
+        this.state=state;
+        this.keywords=keywords;
         interactorExecutor.runSorting(this);
         this.callback=callback;
     }
