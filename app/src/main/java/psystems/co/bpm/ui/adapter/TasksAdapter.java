@@ -32,7 +32,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     private ArrayList<TasksEntityResponse> taskElementArrayList;
     private Context mContext;
     MyViewHolder viewHolder;
-    private String token;
     private String userName;
     int height;
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -54,7 +53,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, TaskDetailsActivity.class);
                     intent.putExtra("taskID", taskElementArrayList.get(getLayoutPosition()).getTaskId());
-                    intent.putExtra("token",token);
+                 //   intent.putExtra("token",token);
                     intent.putExtra("userName",userName);
                     ((Activity) mContext).startActivityForResult(intent, MainActivity.REQUEST_CODE);
              }
@@ -63,10 +62,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     }
 
 
-    public TasksAdapter(ArrayList<TasksEntityResponse> taskElementArrayList, Context mContext, String token, String userName) {
+    public TasksAdapter(ArrayList<TasksEntityResponse> taskElementArrayList, Context mContext, String userName) {
         this.taskElementArrayList = taskElementArrayList;
         this.mContext=mContext;
-        this.token=token;
+       // this.token=token;
         this.userName=userName;
     }
 

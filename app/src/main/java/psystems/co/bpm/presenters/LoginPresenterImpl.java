@@ -58,9 +58,9 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.Callb
 
 
     @Override
-    public void onSucess(LoginDataResponse loginDataResponse) {
+    public void onSucess(String token) {
         view.hideWaitingDialog();
-        view.loginIsSucess(loginDataResponse);
+        view.loginIsSucess(token);
     }
 
     @Override

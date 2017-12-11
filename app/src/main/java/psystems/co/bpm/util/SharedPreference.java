@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 public class SharedPreference {
 
     private static final String SP_NAME = "BPM";
+    private static final String TOKEN = "token";
     private static final String FIRST_RADIO_BUTTONS="first_order";
     private static final String SECOND_RADIO_BUTTONS="second_order";
     private static final String ORDER_COLUMN="order_column";
@@ -20,7 +21,7 @@ public class SharedPreference {
     private static final String FILTER_BY_SEVERITY_ITEM="filter_by_severity_item";
     private static final String FROM_DATE="from_date";
     private static final String TO_DATE="to_date";
-    private static final String FILTER_ASSIGNED="filter_assigned";
+    private static final String FILTER_State="filter_state";
     private static final String FILTER_COMPLETED="filter_completed";
     private static final String FILTER_REQUEST_INFO="filter_request_info";
     private static final String FILTER_KEYWORD="filter_keyword";
@@ -70,6 +71,20 @@ public class SharedPreference {
                 Context.MODE_PRIVATE);
 
         sharedPref.edit().clear().commit();
+    }
+
+    public static void saveToken(Context mContext, String token){
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TOKEN, token);
+        editor.apply();
+    }
+    public static String  loadToken(Context mContext){
+        SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+            String token = sharedPreferences.getString(TOKEN, null);
+        return token;
     }
 
     public static void saveFirstRadioButtons(Context mContext, int id){
@@ -228,53 +243,53 @@ public class SharedPreference {
         return toDate;
     }
 
-    public static void saveFilterAssigned(Context mContext, String assigned)
+    public static void saveFilterState(Context mContext, String state)
     {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(FILTER_ASSIGNED, assigned);
+        editor.putString(FILTER_State, state);
         editor.apply();
     }
-    public static String loadFilterAssigned(Context mContext)
+    public static String loadFilterState(Context mContext)
     {
         SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        String assigned = sharedPreferences.getString(FILTER_ASSIGNED, null);
+        String assigned = sharedPreferences.getString(FILTER_State, null);
         return assigned;
     }
 
-    public static void saveFilterCompleted(Context mContext, String completed)
-    {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(FILTER_COMPLETED, completed);
-        editor.apply();
-    }
-    public static String loadFilterCompleted(Context mContext)
-    {
-        SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        String completed = sharedPreferences.getString(FILTER_COMPLETED, null);
-        return completed;
-    }
-
-    public static void saveFilterRequestInfo(Context mContext, String requestInfo)
-    {
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(FILTER_REQUEST_INFO, requestInfo);
-        editor.apply();
-    }
-    public static String loadFilterRequestInfo(Context mContext)
-    {
-        SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        String requestInfo = sharedPreferences.getString(FILTER_REQUEST_INFO, null);
-        return requestInfo;
-    }
+//    public static void saveFilterCompleted(Context mContext, String completed)
+//    {
+//
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(FILTER_COMPLETED, completed);
+//        editor.apply();
+//    }
+//    public static String loadFilterCompleted(Context mContext)
+//    {
+//        SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//
+//        String completed = sharedPreferences.getString(FILTER_COMPLETED, null);
+//        return completed;
+//    }
+//
+//    public static void saveFilterRequestInfo(Context mContext, String requestInfo)
+//    {
+//
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(FILTER_REQUEST_INFO, requestInfo);
+//        editor.apply();
+//    }
+//    public static String loadFilterRequestInfo(Context mContext)
+//    {
+//        SharedPreferences  sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//
+//        String requestInfo = sharedPreferences.getString(FILTER_REQUEST_INFO, null);
+//        return requestInfo;
+//    }
 
     public static void saveFilterKeyWord(Context mContext, String KeyWord)
     {

@@ -4,6 +4,8 @@
     <string name="dialog_title">Alert</string>
     <string name="dialog_message">Please Wait....</string>
     <string name="enter_user_name">Enter user name</string>
+    <string name="no_data">There is no data to show</string>
+    <string name="error_connection">Error in the connection</string>
     <string name="request_error">Request Error</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="request_no">REQUEST NO.</string>
@@ -37,4 +39,5 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="filter_title">Filter By</string>
+    <string name="task_initiate">Initiate Task</string>
 </resources>

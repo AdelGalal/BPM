@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import psystems.co.bpm.api.model.response.TaskElement;
+import psystems.co.bpm.api.model.response.TaskListResponse;
 import psystems.co.bpm.api.model.response.TasksEntityResponse;
 import psystems.co.bpm.domain.interactors.tasks.TaskInteractor;
 import psystems.co.bpm.ui.views.TasksView;
@@ -36,15 +37,15 @@ public class TaskPresenterImpl implements TaskPresenter,TaskInteractor.Callback 
 
     @Override
     public void startSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate
-            , String filter,String state,String keywords) {
+            , String filter,String state,String keywords,String severity) {
         view.showWaitingDialog();
-        taskInteractor.excuteSortingSearch(token,orderColumn,order,fromDate,toDate,filter,state,keywords,this);
+        taskInteractor.excuteSortingSearch(token,orderColumn,order,fromDate,toDate,filter,state,keywords,severity,this);
     }
 
     @Override
-    public void onSucess(ArrayList<TasksEntityResponse>taskElementsList) {
+    public void onSucess(TaskListResponse taskListResponse) {
         view.hideWaitingDialog();
-        view.isSucess(taskElementsList);
+        view.isSucess(taskListResponse);
     }
 
     @Override

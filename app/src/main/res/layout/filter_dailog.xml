@@ -3,9 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:background="@color/main_bg"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:text="@string/filter_title" />
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/header_layout"
         android:layout_above="@+id/apply_btn"
         android:fillViewport="true">
 
@@ -99,11 +117,11 @@
             android:textColor="@android:color/black"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:enabled="false"
+            android:enabled="true"
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:hint="Date"
+            android:hint="Date is in format 29/11/2014"
 
             />
 
@@ -142,11 +160,11 @@
             android:textColor="@android:color/black"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:enabled="false"
+            android:enabled="true"
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:hint="Date"
+            android:hint="Date is in format 29/11/2014"
 
             />
 
@@ -188,24 +206,25 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/filter_by_status_textView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:weightSum="3"
         >
+
         <CheckBox
             android:id="@+id/assigned_checkBox"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:textSize="14sp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:text="@string/assigned" />
+            android:layout_weight="1"
+            android:text="@string/assigned"
+            android:textSize="12sp" />
         <CheckBox
             android:id="@+id/completed_checkBox"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:text="@string/completed" />
@@ -213,7 +232,7 @@
             android:id="@+id/request_checkBox"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:text="@string/request_info" />

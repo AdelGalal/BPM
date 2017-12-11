@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public class TaskListResponse implements Parcelable {
     @SerializedName("tasks")
     private ArrayList<TasksEntityResponse> tasksEntityResponseArrayList;
+
+    @SerializedName("token")
+    private String token;
     protected TaskListResponse(Parcel in) {
     }
 
@@ -45,5 +48,13 @@ public class TaskListResponse implements Parcelable {
 
     public void setTasksEntityResponseArrayList(ArrayList<TasksEntityResponse> tasksEntityResponseArrayList) {
         this.tasksEntityResponseArrayList = tasksEntityResponseArrayList;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

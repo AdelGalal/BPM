@@ -77,19 +77,20 @@ import psystems.co.bpm.util.SharedPreference;
 
 
      @Override
-     public void loginIsSucess(LoginDataResponse loginDataResponse) {
+     public void loginIsSucess(String  token) {
          userLoggedData=new UserLoggedData();
          SharedPreference.removeAllKeySP(this);
          Bundle b=new Bundle();
          userLoggedData.setUserName(etUserName.getText().toString());
-         Log.e("LoginActivity","user name="+userLoggedData.getUserName().toString());
+         //Log.e("LoginActivity","user name="+userLoggedData.getUserName().toString());
 
          userLoggedData.setPassword(etPassword.getText().toString());
 
          SharedPreference.save_SP_Data(this,SharedPreference.SP_USER_INFO,userLoggedData);
          Log.e("LoginActivity","saved user name="+SharedPreference.load_SP_Data(this,SharedPreference.SP_USER_INFO,UserLoggedData.class));
-         b.putString("userName", loginDataResponse.getWorkFlowContextResponse().getUserDisplayName());
-         b.putString("token", loginDataResponse.getWorkFlowContextResponse().getToken());
+         b.putString("userName", etUserName.getText().toString());
+         b.putString("token",token);
+         SharedPreference.saveToken(this,token);
          ActivitySwiping.goTOAnotherActivityWithBundle(LoginActivity.this,MainActivity.class,b);
      }
 

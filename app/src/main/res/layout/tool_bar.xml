@@ -16,6 +16,17 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tv_taskInitiate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="@string/task_initiate" />
     <ImageView
         android:id="@+id/sort_imageView"
         android:layout_width="wrap_content"

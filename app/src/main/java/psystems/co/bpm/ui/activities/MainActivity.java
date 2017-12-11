@@ -1,32 +1,23 @@
 package psystems.co.bpm.ui.activities;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.ActionBar;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -34,8 +25,8 @@ import javax.inject.Inject;
 import psystems.co.bpm.BPMApplication;
 import psystems.co.bpm.R;
 
-import psystems.co.bpm.api.model.response.TaskElement;
 //import psystems.co.bpm.injection.zip.DaggerTaskComponent;
+import psystems.co.bpm.api.model.response.TaskListResponse;
 import psystems.co.bpm.api.model.response.TasksEntityResponse;
 import psystems.co.bpm.injection.zip.DaggerTaskComponent;
 import psystems.co.bpm.injection.zip.TaskComponent;
@@ -45,13 +36,15 @@ import psystems.co.bpm.ui.adapter.SimpleDividerItemDecoration;
 import psystems.co.bpm.ui.adapter.SpacesItemDecoration;
 import psystems.co.bpm.ui.adapter.TasksAdapter;
 import psystems.co.bpm.ui.fragments.FilterDailogFragment;
+import psystems.co.bpm.ui.fragments.TaskInitiateFragment;
 import psystems.co.bpm.ui.views.TasksView;
 import psystems.co.bpm.util.SharedPreference;
 
 public class MainActivity extends AppCompatActivity implements TasksView,View.OnClickListener{
     private TextView userName;
+    private TextView taskInitiateTextView;
     private String user;
-    private String token;
+  //  private String token;
     private ImageView sort_imageView;
     private ImageView filter_imageView;
     private  RadioGroup firstRadioGroup;
@@ -60,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
     private String orderColumn;
     private String orderIn;
     public static final int REQUEST_CODE=100;
+    private TaskInitiateFragment dialogFragment;
 
     @Inject
     TaskPresenter presenter;
@@ -78,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initInjection();
         userName=(TextView)findViewById(R.id.tv_user);
+        taskInitiateTextView=(TextView)findViewById(R.id.tv_taskInitiate);
+        taskInitiateTextView.setVisibility(View.VISIBLE);
+        taskInitiateTextView.setOnClickListener(this);
         sort_imageView=(ImageView)findViewById(R.id.sort_imageView);
         sort_imageView.setOnClickListener(this);
         filter_imageView=(ImageView)findViewById(R.id.filter_imageView);
@@ -87,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(2);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         user = getIntent().getStringExtra("userName");
-        token = getIntent().getStringExtra("token");
-        userName.setVisibility(View.VISIBLE);
+       // token = getIntent().getStringExtra("token");
+       // userName.setVisibility(View.VISIBLE);
         userName.setText(user+"");
 //        presenter.startSortingSearch(token,null,null);
 //        presenter.makeSearch(token,"TASKID","TITLE","TASKNUMBER","STARTDATE",
@@ -118,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
 
     public void startConnection()
     {
-        presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(this),SharedPreference.loadOrderIn(this),SharedPreference.loadFilterFromDate(this),SharedPreference.loadFilterToDate(this),
-                SharedPreference.loadFilterByGroup(this),SharedPreference.loadFilterAssigned(this),SharedPreference.loadFilterKeyWord(this));
+        presenter.startSortingSearch(SharedPreference.loadToken(this),SharedPreference.loadOrderColumn(this),SharedPreference.loadOrderIn(this),SharedPreference.loadFilterFromDate(this),SharedPreference.loadFilterToDate(this),
+                SharedPreference.loadFilterByGroup(this),SharedPreference.loadFilterState(this),SharedPreference.loadFilterKeyWord(this),SharedPreference.loadFilterBySeverity(this));
 
     }
 
@@ -183,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
                 Log.e("orderColumn","orderColumn="+orderColumn);
                 SharedPreference.saveOrderColumn(MainActivity.this,orderColumn);
                 SharedPreference.saveOrderIn(MainActivity.this,orderIn);
-                presenter.startSortingSearch(token,orderColumn,orderIn,null,null,null,null,null);
+                presenter.startSortingSearch(SharedPreference.loadToken(MainActivity.this),orderColumn,orderIn,null,null,null,null,null,null);
             }
 
         });
@@ -198,16 +195,29 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK ) {
 
             Log.e("onActivityResult","onActivityResult");
-                presenter.startSortingSearch(token,SharedPreference.loadOrderColumn(MainActivity.this),SharedPreference.loadOrderIn(MainActivity.this),null,null,null,null,null);
+                presenter.startSortingSearch(SharedPreference.loadToken(this),SharedPreference.loadOrderColumn(MainActivity.this),SharedPreference.loadOrderIn(MainActivity.this),SharedPreference.loadFilterFromDate(this),SharedPreference.loadFilterToDate(this),SharedPreference.loadFilterByGroup(this),SharedPreference.loadFilterState(this),SharedPreference.loadFilterKeyWord(this),SharedPreference.loadFilterBySeverity(this));
 
+                if (dialogFragment!=null&&dialogFragment.getActivity()==this)
+                {
+                    dialogFragment.dismiss();
+                }
         }
     }
 
 
-
     @Override
-    public void isSucess(ArrayList<TasksEntityResponse> taskElementArrayList) {
-        recyclerView.setAdapter(new TasksAdapter(taskElementArrayList,this,token,user));
+    public void isSucess(TaskListResponse taskListResponse) {
+        if (taskListResponse.getTasksEntityResponseArrayList().size()>0)
+        {
+            recyclerView.setAdapter(new TasksAdapter(taskListResponse.getTasksEntityResponseArrayList(),this,user));
+        }
+        else
+        {
+            Toast.makeText(this, R.string.no_data, Toast.LENGTH_SHORT).show();
+        }
+        Log.e("new token","new token is = "+taskListResponse.getToken());
+        SharedPreference.saveToken(this,taskListResponse.getToken());
+
     }
 
     @Override
@@ -240,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
 
     @Override
     public void showErrorInRequest() {
-        Toast.makeText(this, R.string.enter_user_name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.error_connection, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -248,6 +258,12 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         if (view==sort_imageView)
         {
             showDailog();
+        }
+        if (view==taskInitiateTextView)
+        {
+            FragmentManager fm = getFragmentManager();
+            dialogFragment = new TaskInitiateFragment();
+            dialogFragment.show(fm, "Sample Fragment");
         }
         if (view==filter_imageView)
         {
@@ -279,3 +295,17 @@ public class MainActivity extends AppCompatActivity implements TasksView,View.On
         }
     }
 }
+/*
+
+imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isClickOpenImage = true;
+                Intent intent = new Intent(getActivity(), FullScreenImages.class);
+                intent.putExtra(FullScreenImages.IMAGEURL, fileName);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, "profile");
+                startActivity(intent, options.toBundle());
+            }
+        });
+
+ */

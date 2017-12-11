@@ -13,6 +13,9 @@ public class TaskDetailsURLResponse implements Parcelable {
     @SerializedName("taskURL")
     private String taskURL;
 
+    @SerializedName("token")
+    private String token;
+
     protected TaskDetailsURLResponse(Parcel in) {
         taskURL = in.readString();
     }
@@ -45,5 +48,13 @@ public class TaskDetailsURLResponse implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(taskURL);
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

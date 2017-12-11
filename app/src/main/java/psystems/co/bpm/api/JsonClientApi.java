@@ -12,6 +12,7 @@ import retrofit2.http.Query;
  */
 
 public interface JsonClientApi {
+
     @GET("/MobileProxy/resources/iworkspace/getTaskDisplayURL?")
     Call<JsonElement> getTaskURLOfDetails(@Query("taskid") String
                                                   taskId, @Header("token") String token);
@@ -21,6 +22,19 @@ public interface JsonClientApi {
                                              taskId,@Query("order")String order,
                                      @Query("fromDate")String fromDate, @Query("toDate")String toDate,
                                      @Query("filter")String filter, @Query("state")String state,@Query("keywords")String keywords,
+                                     @Query("serverity")String serverity,
                                      @Header("token") String token);
+
+    @GET("/MobileProxy/resources/iworkspace/getInitiatiableTasks?")
+    Call<JsonElement> getInitiateTasks(@Header("token") String token);
+
+    @GET("/MobileProxy/resources/iworkspace/initiateTask?")
+    Call<JsonElement> getinitiateTaskURL(@Query("compositeDN") String
+                                                 initcompositeDN, @Header("token") String token);
+
+    @GET("/MobileProxy/resources/iworkspace/authenticate?")
+    Call<JsonElement> getAuthenticate(@Query("username") String
+                                                 userName,@Query("password")String password);
+
 
 }

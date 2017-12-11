@@ -7,5 +7,6 @@ public interface InteractorExecutor {
 
     void run(Interactor interactor);
     void runSorting(Interactor interactor);
+    void runIniateTasks(Interactor interactor);
 
 }

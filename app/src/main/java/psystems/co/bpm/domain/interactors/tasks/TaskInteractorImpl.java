@@ -55,6 +55,7 @@ public class TaskInteractorImpl implements TaskInteractor {
     private String taskFirstOptionalInfo;
     private String taskSecondOptionalInfo;
     private String assignmentFilter;
+    private String severity;
 
     private TaskListResponse taskListResponse;
 
@@ -181,7 +182,10 @@ public class TaskInteractorImpl implements TaskInteractor {
     @Override
     public void runSorting() {
 
-        Call<JsonElement> call = jsonClientApi.getSortedTasks(orderColumn,order,fromDate,toDate,filter,state,keywords,token);
+        Call<JsonElement> call = jsonClientApi.getSortedTasks(orderColumn,order,fromDate,toDate,filter,state,keywords,severity,token);
+
+        Log.e("URL","requested URL==="+jsonClientApi.getSortedTasks(orderColumn,order,fromDate,toDate,filter,state,keywords,severity,token).request().url().toString());
+
         call.enqueue(new retrofit2.Callback<JsonElement>() {
 
             @Override
@@ -196,7 +200,7 @@ public class TaskInteractorImpl implements TaskInteractor {
                             taskListResponse = Gson.parseSortedTasksURL(response.body());
                             Log.e("response","response=="+response.body());
                          //   Log.e("response","task sorted array size=="+taskListResponse.getTasksEntityResponseArrayList().size());
-                            callback.onSucess(taskListResponse.getTasksEntityResponseArrayList());
+                            callback.onSucess(taskListResponse);
                             //Log.e("response","size=="+response.body().getBody().getTaskElements().size());
                         }
 
@@ -229,6 +233,16 @@ public class TaskInteractorImpl implements TaskInteractor {
         });
     }
 
+    @Override
+    public void runInitiateTask() {
+
+    }
+
+    @Override
+    public void runInitiatbleTaskUrl() {
+
+    }
+
 
     @Override
     public void execute(String token, String displayFirstColumn, String displaySecondColumn, String displayThirdColumn, String displayFourthColumn, String displayFifthColumn, String displaySixthColumn, String taskFirstOptionalInfo, String taskSecondOptionalInfo, String assignmentFilter, Callback callback) {
@@ -249,7 +263,7 @@ public class TaskInteractorImpl implements TaskInteractor {
 
     @Override
     public void excuteSortingSearch(String token,String orderColumn,String order,String fromDate,String toDate,
-                                    String filter,String state,String keywords,Callback callback) {
+                                    String filter,String state,String keywords,String severity,Callback callback) {
         this.token=token;
         this.orderColumn=orderColumn;
         this.order=order;
@@ -258,6 +272,7 @@ public class TaskInteractorImpl implements TaskInteractor {
         this.filter=filter;
         this.state=state;
         this.keywords=keywords;
+        this.severity=severity;
         interactorExecutor.runSorting(this);
         this.callback=callback;
     }

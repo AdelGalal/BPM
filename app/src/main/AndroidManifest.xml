@@ -32,6 +32,8 @@
             android:name=".ui.activities.MainActivity"
             android:label="@string/title_activity_main" />
         <activity android:name=".ui.activities.TaskDetailsActivity" />
+        <activity android:name=".ui.activities.TaskInitiatiableActivity" />
+        <activity android:name=".ui.activities.ExampleActivity"></activity>
     </application>
 
 </manifest>

@@ -20,9 +20,14 @@ package psystems.co.bpm.domain.interactors.login;
 import android.util.Log;
 
 
+import com.google.gson.JsonElement;
+
 import javax.inject.Inject;
 
+import psystems.co.bpm.api.Gson;
+import psystems.co.bpm.api.JsonClientApi;
 import psystems.co.bpm.api.UsStatesApi;
+import psystems.co.bpm.api.model.login.LoginResponse;
 import psystems.co.bpm.api.model.request.login.LoginRequestBody;
 import psystems.co.bpm.api.model.request.login.LoginRequestData;
 import psystems.co.bpm.api.model.request.login.LoginRequestEnvelope;
@@ -42,8 +47,13 @@ public class LoginInteractorImpl implements LoginInteractor {
 
     private Callback callback;
 
+    private LoginResponse loginResponse;
+
     @Inject
     UsStatesApi usStatesApi;
+
+    @Inject
+    JsonClientApi jsonClientApi;
 
 //    @Inject
 //    ZipCodeMapperDomain zipCodeMapperDomain;
@@ -75,32 +85,80 @@ public class LoginInteractorImpl implements LoginInteractor {
     public void run() {
 
         //Creation of the envelope and the message.
-        LoginRequestEnvelope loginRequestEnvelope=new LoginRequestEnvelope();
+//        LoginRequestEnvelope loginRequestEnvelope=new LoginRequestEnvelope();
+//
+//        LoginRequestBody loginRequestBody=new LoginRequestBody();
+//
+//        LoginRequestData loginRequestData=new LoginRequestData();
+//
+//        loginRequestData.setUserName(userName);
+//        loginRequestData.setPassword(password);
+//
+//        loginRequestBody.setLoginRequestData(loginRequestData);
+//        loginRequestEnvelope.setBody(loginRequestBody);
+//
+//        Call<LoginResponseEnvelope> call = usStatesApi.requestLoginInfo(loginRequestEnvelope);
+//        call.enqueue(new retrofit2.Callback<LoginResponseEnvelope>() {
+//
+//            @Override
+//            public void onResponse(Call<LoginResponseEnvelope> call, final Response<LoginResponseEnvelope> response) {
+//
+//                mainThread.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        if (response.code()==200)
+//                        {
+//                         //   Log.e("response","response=="+response.code());
+//                            callback.onSucess(response.body().getBody());
+//                        }
+//
+//                        else
+//                        {
+//                            callback.onError();
+//                        }
+//
+//                    }
+//
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<LoginResponseEnvelope> call, Throwable t) {
+//
+//                mainThread.runOnUiThread(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//
+//                        Log.e("response","erorr==");
+//                        callback.onError();
+//
+//                    }
+//                });
+//
+//            }
+//        });
 
-        LoginRequestBody loginRequestBody=new LoginRequestBody();
-
-        LoginRequestData loginRequestData=new LoginRequestData();
-
-        loginRequestData.setUserName(userName);
-        loginRequestData.setPassword(password);
-
-        loginRequestBody.setLoginRequestData(loginRequestData);
-        loginRequestEnvelope.setBody(loginRequestBody);
-
-        Call<LoginResponseEnvelope> call = usStatesApi.requestLoginInfo(loginRequestEnvelope);
-        call.enqueue(new retrofit2.Callback<LoginResponseEnvelope>() {
+        ////////////////////////////////////////////////
+        Call<JsonElement> call = jsonClientApi.getAuthenticate(userName,password);
+        call.enqueue(new retrofit2.Callback<JsonElement>() {
 
             @Override
-            public void onResponse(Call<LoginResponseEnvelope> call, final Response<LoginResponseEnvelope> response) {
-
+            public void onResponse(Call<JsonElement> call, final Response<JsonElement> response) {
+                Log.e("response","response of Login json=="+response.code());
                 mainThread.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        if (response.code()==200)
+                        if (response.isSuccessful())
                         {
-                         //   Log.e("response","response=="+response.code());
-                            callback.onSucess(response.body().getBody());
+                            loginResponse = Gson.parseAuthenticateURL(response.body());
+                            Log.e("response","response=="+response.body());
+                            Log.e("response","login token=="+loginResponse.getToken());
+                            callback.onSucess(loginResponse.getToken());
+                            //Log.e("response","size=="+response.body().getBody().getTaskElements().size());
                         }
 
                         else
@@ -115,14 +173,14 @@ public class LoginInteractorImpl implements LoginInteractor {
             }
 
             @Override
-            public void onFailure(Call<LoginResponseEnvelope> call, Throwable t) {
+            public void onFailure(final Call<JsonElement> call, final Throwable t) {
 
                 mainThread.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
 
-                        Log.e("response","erorr==");
+                        Log.e("response","erorr of tasks=="+t.getMessage());
                         callback.onError();
 
                     }
@@ -130,11 +188,20 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             }
         });
-
     }
 
     @Override
     public void runSorting() {
+
+    }
+
+    @Override
+    public void runInitiateTask() {
+
+    }
+
+    @Override
+    public void runInitiatbleTaskUrl() {
 
     }
 

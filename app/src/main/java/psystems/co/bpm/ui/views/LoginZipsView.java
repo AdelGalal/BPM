@@ -7,7 +7,7 @@ import psystems.co.bpm.api.model.response.LoginDataResponse;
 
 public interface LoginZipsView {
 
-    void loginIsSucess(LoginDataResponse loginDataResponse);
+    void loginIsSucess(String  token);
 
     void showWaitingDialog();
 

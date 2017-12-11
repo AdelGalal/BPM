@@ -3,6 +3,7 @@ package psystems.co.bpm.ui.views;
 import java.util.ArrayList;
 
 import psystems.co.bpm.api.model.response.TaskElement;
+import psystems.co.bpm.api.model.response.TaskListResponse;
 import psystems.co.bpm.api.model.response.TasksEntityResponse;
 
 /**
@@ -10,7 +11,7 @@ import psystems.co.bpm.api.model.response.TasksEntityResponse;
  */
 
 public interface TasksView {
-    void isSucess(ArrayList<TasksEntityResponse> taskElementArrayList);
+    void isSucess(TaskListResponse taskElementArrayList);
 
     void showWaitingDialog();
 

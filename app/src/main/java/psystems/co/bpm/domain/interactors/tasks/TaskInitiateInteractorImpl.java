@@ -8,23 +8,21 @@ import javax.inject.Inject;
 
 import psystems.co.bpm.api.Gson;
 import psystems.co.bpm.api.JsonClientApi;
-import psystems.co.bpm.api.model.response.TaskDetailsURLResponse;
-import psystems.co.bpm.domain.threads.InteractorExecutorOfTaskDetails;
+import psystems.co.bpm.api.model.response.TaskInitiatiable;
+import psystems.co.bpm.domain.threads.InteractorExecutorOfInitiateTasks;
 import psystems.co.bpm.domain.threads.MainThread;
 import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by ADEL on 11/23/2017.
+ * Created by ADEL on 12/6/2017.
  */
 
-public class TaskDetailsInteractorImpl implements TaskDetailsInteractor {
+public class TaskInitiateInteractorImpl implements TaskInitiateInteractor {
 
-    private CallbackOfTaskDetails callback;
+    private CallbackOfTaskInitiate callback;
     private String token;
-    private String taskID;
-    private TaskDetailsURLResponse taskDetailsURLResponse;
-
+    private TaskInitiatiable taskInitiatiable;
     @Inject
     JsonClientApi jsonClientApi;
 
@@ -32,46 +30,55 @@ public class TaskDetailsInteractorImpl implements TaskDetailsInteractor {
     MainThread mainThread;
 
     @Inject
-    InteractorExecutorOfTaskDetails interactorExecutor;
+    InteractorExecutorOfInitiateTasks interactorExecutor;
 
     @Inject
-    public TaskDetailsInteractorImpl() {
+    public TaskInitiateInteractorImpl() {
 
     }
 
-
     @Override
-    public void execute(String taskID, String token,CallbackOfTaskDetails callbackOfTaskDetails) {
-        this.taskID=taskID;
+    public void execute(String token, CallbackOfTaskInitiate taskInitiateCallback) {
+
         this.token=token;
-        this.callback=callbackOfTaskDetails;
+        this.callback= taskInitiateCallback;
         interactorExecutor.run(this);
     }
 
     @Override
     public void run() {
-        Call<JsonElement> call = jsonClientApi.getTaskURLOfDetails(taskID,token);
+
+    }
+
+    @Override
+    public void runSorting() {
+
+    }
+
+    @Override
+    public void runInitiateTask() {
+        Call<JsonElement> call = jsonClientApi.getInitiateTasks(token);
         call.enqueue(new retrofit2.Callback<JsonElement>() {
 
             @Override
             public void onResponse(Call<JsonElement> call, final Response<JsonElement> response) {
-                Log.e("response","response1111 of json=="+response.code());
+                Log.e("response","response of InitiateTasks json=="+response.code());
                 mainThread.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
                         if (response.isSuccessful())
                         {
-                            taskDetailsURLResponse = Gson.parseTaskDetailsURL(response.body());
+                            taskInitiatiable = Gson.parseInitiateTasks(response.body());
                             Log.e("response","response=="+response.body());
-                            Log.e("response","task url=="+taskDetailsURLResponse.getTaskURL());
-                            callback.onSucess(taskDetailsURLResponse.getTaskURL());
-                            //Log.e("response","size=="+response.body().getBody().getTaskElements().size());
+                            //   Log.e("response","task sorted array size=="+taskListResponse.getTasksEntityResponseArrayList().size());
+                            callback.onSucess(taskInitiatiable);
+                            Log.e("response","size of inita tasks=="+taskInitiatiable.getTaskInitiateArrayList().size());
                         }
 
                         else
                         {
-                              callback.onError();
+                            callback.onError();
                         }
 
                     }
@@ -96,16 +103,6 @@ public class TaskDetailsInteractorImpl implements TaskDetailsInteractor {
 
             }
         });
-        ////////////////////////////////////////////////////////////////
-    }
-
-    @Override
-    public void runSorting() {
-
-    }
-
-    @Override
-    public void runInitiateTask() {
 
     }
 
@@ -113,6 +110,4 @@ public class TaskDetailsInteractorImpl implements TaskDetailsInteractor {
     public void runInitiatbleTaskUrl() {
 
     }
-
-
 }
